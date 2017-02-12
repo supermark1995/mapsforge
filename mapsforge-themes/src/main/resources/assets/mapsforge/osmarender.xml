@@ -440,6 +440,10 @@
     </rule>
 
 
+    <!-- hillshading -->
+    <hillshading />
+
+
     <!-- turning circles -->
     <rule e="node" k="highway" v="turning_circle">
         <circle fill="#707070" radius="1.5" scale-radius="true" />

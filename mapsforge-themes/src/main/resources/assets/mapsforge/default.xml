@@ -367,7 +367,12 @@
             </rule>
         </rule>
     </rule>
-    <hillshading/>
+
+
+    <!-- hillshading -->
+    <hillshading />
+
+
     <!-- buildings -->
     <rule e="any" k="*" v="*">
         <rule e="way" k="waterway" v="dock" zoom-min="14">

@@ -3,6 +3,7 @@
  * Copyright 2014 Christian Pesch
  * Copyright 2014 Ludwig M Brinckmann
  * Copyright 2014-2017 devemux86
+ * Copyright 2017 usrusr
  *
  * This program is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -92,7 +93,7 @@ public final class Samples {
 
         Map.Entry<File, String[]> demReturn = getDemPath(args);
         HillsRenderConfig hillsCfg = null;
-        if(demReturn!=null){
+        if (demReturn != null) {
             hillsCfg = new HillsRenderConfig(demReturn.getKey(), AwtGraphicFactory.INSTANCE, new SimpleShadingAlgortithm());
             args = demReturn.getValue();
         }
@@ -131,20 +132,6 @@ public final class Samples {
             }
         });
         frame.setVisible(true);
-    }
-
-    private static Map.Entry<File, String[]> getDemPath(String[] args) {
-
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-            File file = new File(arg);
-            if (file.isDirectory()) {
-                List<String> rest = new ArrayList<>(Arrays.asList(args));
-                rest.remove(i);
-                return new AbstractMap.SimpleEntry(file, rest.toArray(new String[args.length-1]));
-            }
-        }
-        return null;
     }
 
     private static BoundingBox addLayers(MapView mapView, List<File> mapFiles, HillsRenderConfig hillsRenderConfig) {
@@ -211,7 +198,7 @@ public final class Samples {
     }
 
     private static TileRendererLayer createTileRendererLayer(TileCache tileCache, MapDataStore mapDataStore, MapViewPosition mapViewPosition, HillsRenderConfig hillsRenderConfig) {
-        TileRendererLayer tileRendererLayer = new TileRendererLayer(tileCache, mapDataStore, mapViewPosition, GRAPHIC_FACTORY, hillsRenderConfig) {
+        TileRendererLayer tileRendererLayer = new TileRendererLayer(tileCache, mapDataStore, mapViewPosition, false, true, false, GRAPHIC_FACTORY, hillsRenderConfig) {
             @Override
             public boolean onTap(LatLong tapLatLong, Point layerXY, Point tapXY) {
                 System.out.println("Tap on: " + tapLatLong);
@@ -220,6 +207,19 @@ public final class Samples {
         };
         tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.DEFAULT);
         return tileRendererLayer;
+    }
+
+    private static Map.Entry<File, String[]> getDemPath(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+            File file = new File(arg);
+            if (file.isDirectory()) {
+                List<String> rest = new ArrayList<>(Arrays.asList(args));
+                rest.remove(i);
+                return new AbstractMap.SimpleEntry(file, rest.toArray(new String[args.length - 1]));
+            }
+        }
+        return null;
     }
 
     private static List<File> getMapFiles(String[] args) {
